@@ -1,0 +1,28 @@
+{% extends 'core/base.html' %}
+
+{% block title %}{{ category.title }} | {% endblock %}
+
+{% block content %}
+<section>
+    <div class="row">
+        {% for post in posts %}
+        <div class="col-sm-6">
+            <div class="card">
+                <img src="..." class="card-img-top" alt="...">
+                <div class="card-body">
+                    <a href="{% url 'post_detail' post.category.slug post.slug %}">
+                        <h5 class="card-title">{{ post.title }}</h5>
+                        <p class="card-text">{{ post.intro }}</p>
+                    </a>
+                    <p class="card-text"><small class="text-muted">{{ post.create_at|date:'m-d-y H:i' }}</small></p>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+            <div class="contaner">
+                <p>no post avalable at the moment</p>
+            </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'core/base.html' %}
+{% block title %}{{post.title}} | {% endblock %}
+
+{% block content %}
+    <section>
+                <div class="card mb-3">
+                    {% if post.image %}
+                    <img src="{{ post.image.url }}" class="card-img-top mb-6" alt="...">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ post.title }}</h5>
+                        <p class="card-text">{{ post.intro }}</p>
+                        <p class="card-text">{{ post.body }}</p>
+                        <p class="card-text"><small class="text-muted">{{ post.create_at|date:'m-d-y H:i' }}</small></p>
+                        <p class="card-text"><small class="text-muted">catrgory: <a href="{% url 'category_detail' post.category.slug %}">{{ post.category }}</a></small></p>
+                        <hr>
+                        <h2>comments</h2>
+                        <form method="post" class="mb-6">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+
+                            <div class="field">
+                                <div class="control">
+                                    <button class="btn btn-outline-success" type="submit">Submit</button>
+                                </div>
+                            </div>
+                        </form>
+                        <hr>
+                        {% for comment in post.comment.all %}
+                            <article class="midia">
+                                <strong>{{ comment.name }}</strong>
+                                <small>
+                                    {{comment.create_at|timesince}} ago
+                                </small><br>
+                                {{ comment.body}}
+                            </article>
+                        {% endfor %}
+                    </div>
+                </div>
+    </section>
+{% endblock %}
